@@ -38,22 +38,52 @@ $products = [
 
 $totalValue = 0;
 
-require 'form-view.php';
 
-$email = "";
-$street = "";
-$street_no = "";
-$city = "";
-$zipcode = "";
+$email = $street = $street_no = $city = $zipcode = "";
+$emailErr = $streetErr = $street_noErr = $cityErr = $zipcodeErr = "";     //vars for error messages
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['email'])) {
         $email = $_POST['email'];
     }}
 
-
 if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo("$email is a valid email address");
+    echo("$email is a valid email address");            //validate email
 } else {
     echo("$email is not a valid email address");
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (empty($_POST["street"])) {
+        $streetErr = "Street is required";
+    } else {
+        $street = test_input($_POST["street"]);
+    }
+
+    if (empty($_POST["streetnumber"])) {
+        $street_noErr = "Street number is required";
+    } else {
+        $street_no = test_input($_POST["streetnumber"]);
+    }
+
+    if (empty($_POST["city"])) {
+        $cityErr = "City is required";
+    } else {
+        $city = test_input($_POST["city"]);
+    }
+
+    if (empty($_POST["zipcode"])) {
+        $zipcodeErr = "Zipcode is required";
+    } else {
+        $zipcode = test_input($_POST["zipcode"]);
+    }
+}
+
+function test_input($data) {
+    $data = trim($data);                //check and remove unnecessary characters
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+require 'form-view.php';
