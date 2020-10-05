@@ -40,7 +40,7 @@ $totalValue = 0;
 
 
 $email = $street = $street_no = $city = $zipcode = "";
-$emailErr = $streetErr = $street_noErr = $cityErr = $zipcodeErr = "";     //vars for error messages
+$streetErr = $street_noErr = $cityErr = $zipcodeErr = "";     //vars for error messages
 
 /*if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['email'])) {
@@ -91,6 +91,9 @@ function test_input($data) {
     if(!is_numeric($zipcode)){                      //validate zipcode: if not numeric -> error
         $zipcode_numeric = "Zipcode must be a numeric value";
     }
+
+
+
 
 
 
