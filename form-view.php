@@ -44,7 +44,7 @@
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
                     <input type="text" id="streetnumber" name="streetnumber" class="form-control">
-                    <span class="error">* <?php echo $street_noErr;?></span>
+                    <span class="error">* <?php echo $street_noErr; echo $street_no_numeric;?></span>
                 </div>
             </div>
             <div class="form-row">
@@ -56,7 +56,7 @@
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
                     <input type="text" id="zipcode" name="zipcode" class="form-control">
-                    <span class="error">* <?php echo $zipcodeErr;?></span>
+                    <span class="error">* <?php echo $zipcodeErr; echo $zipcode_numeric;?></span>
                 </div>
             </div>
         </fieldset>

@@ -42,22 +42,17 @@ $totalValue = 0;
 $email = $street = $street_no = $city = $zipcode = "";
 $emailErr = $streetErr = $street_noErr = $cityErr = $zipcodeErr = "";     //vars for error messages
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+/*if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['email'])) {
         $email = $_POST['email'];
-    }}
+    }}*/
 
-if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo("$email is a valid email address");            //validate email
-} else {
-    echo("$email is not a valid email address");
-}
-
+          //check required fields
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["street"])) {
         $streetErr = "Street is required";
     } else {
-        $street = test_input($_POST["street"]);
+        $street = test_input($_POST["street"]);     //when field is filled, send input to test_input function
     }
 
     if (empty($_POST["streetnumber"])) {
@@ -85,5 +80,22 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $email_valid = "$email is not a valid email address";            //validate email
+    }
+    if (!is_numeric($street_no)){                                       //validate street number: if not numeric -> error
+        $street_no_numeric = "Street number must be a numeric value";
+
+    }
+    if(!is_numeric($zipcode)){                      //validate zipcode: if not numeric -> error
+        $zipcode_numeric = "Zipcode must be a numeric value";
+    }
+
+
+
+
+
+
 
 require 'form-view.php';
