@@ -49,6 +49,10 @@ $streetErr = $street_noErr = $cityErr = $zipcodeErr = "";     //vars for error m
 
           //check required fields
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['email'])) {
+        $email = $_POST['email'];
+    }
+
     if (empty($_POST["street"])) {
         $streetErr = "Street is required";
     } else {
@@ -80,6 +84,9 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
+$email_valid ="";
+$street_no_numeric = "";
+$zipcode_numeric = "";
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $email_valid = "$email is not a valid email address";            //validate email
@@ -92,7 +99,13 @@ function test_input($data) {
         $zipcode_numeric = "Zipcode must be a numeric value";
     }
 
+$validationMessage = "";
 
+if (isset ($_POST['submit'])) {
+    if ($email_valid == "") {
+        $validationMessage = "Your order has been sent";
+    }
+}
 
 
 
