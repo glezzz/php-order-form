@@ -9,6 +9,82 @@ error_reporting(E_ALL);
 //we are going to use session variables so we need to enable sessions
 session_start();
 
+$email = $street = $street_nr = $city = $zipcode = "";
+$emailErr = $streetErr = $street_nrErr = $cityErr = $zipcodeErr = "";     //vars for error messages
+
+        //session vars
+if (!empty($_SESSION['street'])){
+    $street = $_SESSION['street'];
+}
+if (!empty($_SESSION['streetNumber'])){
+    $street_nr = $_SESSION['streetNumber'];
+}
+if (!empty($_SESSION['city'])){
+    $city = $_SESSION['city'];
+}
+if (!empty($_SESSION['zipCode'])){
+    $zipcode = $_SESSION['zipcode'];
+}
+
+
+//check required fields
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (empty($_POST['email'])) {
+        $emailErr = "Email is required";
+    } else{
+        $email = $_POST['email'];
+    }
+
+    if (empty($_POST["street"])) {
+        $streetErr = "Street is required";
+    } else {
+        $street = test_input($_POST["street"]);     //when field is filled, send input to test_input function
+    }
+
+    if (empty($_POST["streetnumber"])) {
+        $street_nrErr = "Street number is required";
+    } else {
+        $street_nr = test_input($_POST["streetnumber"]);
+        $_SESSION['streetnumber'] = $street_nr;             // store data in SESSION
+    }
+
+    if (empty($_POST["city"])) {
+        $cityErr = "City is required";
+    } else {
+        $city = test_input($_POST["city"]);
+        $_SESSION['city'] = $city;
+    }
+
+    if (empty($_POST["zipcode"])) {
+        $zipcodeErr = "Zipcode is required";
+    } else {
+        $zipcode = test_input($_POST["zipcode"]);
+        $_SESSION['zipcode'] = $zipcode;
+    }
+}
+
+function test_input($data) {
+    $data = trim($data);                //check and remove unnecessary characters
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+$email_valid ="";
+$street_nr_numeric = "";
+$zipcode_numeric = "";            //email & numeric validation
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL) && (!empty($_POST["email"]))) {
+    $email_valid = "Not a valid email address";
+}
+if (!is_numeric($street_nr) && (!empty($_POST["streetnumber"]))){         //validate street number: if not numeric -> error
+    $street_nr_numeric = "Street number must be a numeric value";
+
+}
+if(!is_numeric($zipcode) && (!empty($_POST["zipcode"]))){                      //validate zipcode: if not numeric -> error
+    $zipcode_numeric = "Zipcode must be a numeric value";
+}
+
 function whatIsHappening() {
     echo '<h2>$_GET</h2>';
     var_dump($_GET);
@@ -19,7 +95,7 @@ function whatIsHappening() {
     echo '<h2>$_SESSION</h2>';
     var_dump($_SESSION);
 }
-//whatIsHappening();
+whatIsHappening();
 
 //your products with their price.
 $foods = [
@@ -47,20 +123,6 @@ if (!isset($_SESSION['products'])){     // if there's no session, food is defaul
     $products = $_SESSION['products'];
 }
 
-// delivery time
-$delivery = "";
-
-if (isset($_POST['express_delivery'])){
-    $delivery = "Delivered in 45 minutes";
-
-} else{
-    $delivery = "Delivered within 2 hours";
-}
-
-
-
-
-
 if (isset($_GET['food'])){
     if ($_GET['food'] == "1"){
         $products = $foods;
@@ -71,82 +133,38 @@ if (isset($_GET['food'])){
     }
 }
 
+for ($i = 0; $i < count($products); $i++){      // loop through prices
+    if (isset($_POST['products[i]'])){
+        $totalValue += $products['i']['price'];
 
-$email = $street = $street_no = $city = $zipcode = "";
-$emailErr = $streetErr = $street_noErr = $cityErr = $zipcodeErr = "";     //vars for error messages
-
-/*if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['email'])) {
-        $email = $_POST['email'];
-    }}*/
-
-          //check required fields
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (empty($_POST['email'])) {
-        $emailErr = "Email is required";
-    } else{
-        $email = $_POST['email'];
-    }
-
-    if (empty($_POST["street"])) {
-        $streetErr = "Street is required";
-    } else {
-        $street = test_input($_POST["street"]);     //when field is filled, send input to test_input function
-    }
-
-    if (empty($_POST["streetnumber"])) {
-        $street_noErr = "Street number is required";
-    } else {
-        $street_no = test_input($_POST["streetnumber"]);
-        $_SESSION['streetnumber'] = $street_no;             // store data in SESSION
-    }
-
-    if (empty($_POST["city"])) {
-        $cityErr = "City is required";
-    } else {
-        $city = test_input($_POST["city"]);
-        $_SESSION['city'] = $city;
-    }
-
-    if (empty($_POST["zipcode"])) {
-        $zipcodeErr = "Zipcode is required";
-    } else {
-        $zipcode = test_input($_POST["zipcode"]);
-        $_SESSION['zipcode'] = $zipcode;
     }
 }
 
-function test_input($data) {
-    $data = trim($data);                //check and remove unnecessary characters
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
+
+$delivery = "";
+
+// delivery time        //when express checked inc
+if (isset($_POST['express_delivery'])){     // get current time & parse delivery time
+    $delivery = "Delivered at " . date("H:i", strtotime("+45 minutes" ));  // use capital H for 24hr clock
+    $totalValue += 5;
+
+} else{
+    $delivery = "Delivered at " . date("H:i", strtotime("+2 hours" )) . $totalValue;
 }
 
-$email_valid ="";
-$street_no_numeric = "";
-$zipcode_numeric = "";            //email & numeric validation
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL) && (!empty($_POST["email"]))) {
-        $email_valid = "$email is not a valid email address";
-    }
-    if (!is_numeric($street_no) && (!empty($_POST["streetnumber"]))){         //validate street number: if not numeric -> error
-        $street_no_numeric = "Street number must be a numeric value";
 
-    }
-    if(!is_numeric($zipcode) && (!empty($_POST["zipcode"]))){                      //validate zipcode: if not numeric -> error
-        $zipcode_numeric = "Zipcode must be a numeric value";
-    } else{
-        $zipcode_numeric = "";
-    }
 
-$validationMessage = "";
 
-if (isset ($_POST["submit"])) {             //boolean met geen errors = true of errors = false
-    if ($zipcode_numeric = "") {
-        $validationMessage = "Your order has been sent";
-    }
-}
+
+/*$validation_message = "";
+$errors = [$emailErr = $streetErr = $street_nrErr = $cityErr = $zipcodeErr = $email_valid = $street_nr_numeric = $zipcode_numeric];
+
+    if ($errors == "") {
+        $validation_message = "order sent";
+
+    }*/
+
 
 
 

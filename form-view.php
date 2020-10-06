@@ -12,7 +12,7 @@
 <body>
 <div class="container">
     <h1>Order food in restaurant "the Personal Ham Processors"</h1>
-    <span class="error"><?php echo $validationMessage; echo $delivery;?></span>
+    <span class="error"><?php echo $delivery;?></span>
     <nav>
         <ul class="nav">
             <li class="nav-item">
@@ -34,7 +34,7 @@
         </div>
 
         <fieldset>
-            <legend>Address <?php echo $validationMessage;?></legend>
+            <legend>Address</legend>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
@@ -44,7 +44,7 @@
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
                     <input type="text" id="streetnumber" name="streetnumber" class="form-control" value = "<?php if(isset($_POST["streetnumber"])) echo $_POST["streetnumber"];?>">
-                    <span class="error">* <?php echo $street_noErr; echo $street_no_numeric;?></span>
+                    <span class="error">* <?php echo $street_nrErr; echo $street_nr_numeric;?></span>
                 </div>
             </div>
             <div class="form-row">
