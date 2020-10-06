@@ -12,6 +12,7 @@
 <body>
 <div class="container">
     <h1>Order food in restaurant "the Personal Ham Processors"</h1>
+    <span class="error"><?php echo $validationMessage; ?></span>
     <nav>
         <ul class="nav">
             <li class="nav-item">
@@ -27,14 +28,13 @@
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
                 <input type="text" id="email" name="email" class="form-control" value = "<?php if(isset($_POST["email"])) echo $_POST["email"];?>"/>
-                <span class="error">* <?php echo $email_valid; ?></span>
+                <span class="error">* <?php echo $emailErr echo $email_valid; ?></span>
             </div>
             <div></div>
         </div>
 
         <fieldset>
-            <legend>Address</legend>
-            <p><?php echo $validationMessage;?> </p>
+            <legend>Address <?php echo $validationMessage;?></legend>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
@@ -75,7 +75,7 @@
             Express delivery (+ 5 EUR) 
         </label>
             
-        <button type="submit" class="btn btn-primary">Order!</button>
+        <button type="submit" name = "submit" class="btn btn-primary">Order!</button>
     </form>
 
     <footer>You already ordered <strong>&euro; <?php echo $totalValue ?></strong> in food and drinks.</footer>

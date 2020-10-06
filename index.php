@@ -40,7 +40,7 @@ $totalValue = 0;
 
 
 $email = $street = $street_no = $city = $zipcode = "";
-$streetErr = $street_noErr = $cityErr = $zipcodeErr = "";     //vars for error messages
+$emailErr = $street_noErr = $cityErr = $zipcodeErr = "";     //vars for error messages
 
 /*if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['email'])) {
@@ -51,6 +51,8 @@ $streetErr = $street_noErr = $cityErr = $zipcodeErr = "";     //vars for error m
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['email'])) {
         $email = $_POST['email'];
+    } else{
+        $emailErr = "Email is required";
     }
 
     if (empty($_POST["street"])) {
@@ -84,25 +86,41 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
+
+if (!empty($_SESSION['street'])){
+    $street = $_SESSION['street'];              //prefill in address fields
+}
+if (!empty($_SESSION['streetnumber'])){
+    $street_no = $_SESSION['streetnumber'];
+}
+if (!empty($_SESSION['city'])){
+    $city = $_SESSION['city'];
+}
+if (!empty($_SESSION['zipcode'])){
+    $zipcode = $_SESSION['zipcode'];
+}
+
 $email_valid ="";
 $street_no_numeric = "";
-$zipcode_numeric = "";
+$zipcode_numeric = "";            //email & numeric validation
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $email_valid = "$email is not a valid email address";            //validate email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) && (!empty($_POST["email"]))) {
+        $email_valid = "$email is not a valid email address";
     }
-    if (!is_numeric($street_no)){                                       //validate street number: if not numeric -> error
+    if (!is_numeric($street_no) && (!empty($_POST["streetnumber"]))){         //validate street number: if not numeric -> error
         $street_no_numeric = "Street number must be a numeric value";
 
     }
-    if(!is_numeric($zipcode)){                      //validate zipcode: if not numeric -> error
+    if(!is_numeric($zipcode) && (!empty($_POST["zipcode"]))){                      //validate zipcode: if not numeric -> error
         $zipcode_numeric = "Zipcode must be a numeric value";
+    } else{
+        $zipcode_numeric = "";
     }
 
 $validationMessage = "";
 
-if (isset ($_POST['submit'])) {
-    if ($email_valid == "") {
+if (isset ($_POST["submit"])) {             //boolean met geen errors = true of errors = false
+    if ($zipcode_numeric = "") {
         $validationMessage = "Your order has been sent";
     }
 }
