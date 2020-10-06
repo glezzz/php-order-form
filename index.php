@@ -19,6 +19,7 @@ function whatIsHappening() {
     echo '<h2>$_SESSION</h2>';
     var_dump($_SESSION);
 }
+whatIsHappening();
 
 //your products with their price.
 $products = [
@@ -40,7 +41,7 @@ $totalValue = 0;
 
 
 $email = $street = $street_no = $city = $zipcode = "";
-$emailErr = $street_noErr = $cityErr = $zipcodeErr = "";     //vars for error messages
+$emailErr = $streetErr = $street_noErr = $cityErr = $zipcodeErr = "";     //vars for error messages
 
 /*if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['email'])) {
@@ -49,10 +50,10 @@ $emailErr = $street_noErr = $cityErr = $zipcodeErr = "";     //vars for error me
 
           //check required fields
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['email'])) {
-        $email = $_POST['email'];
-    } else{
+    if (empty($_POST['email'])) {
         $emailErr = "Email is required";
+    } else{
+        $email = $_POST['email'];
     }
 
     if (empty($_POST["street"])) {
@@ -65,18 +66,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $street_noErr = "Street number is required";
     } else {
         $street_no = test_input($_POST["streetnumber"]);
+        $_SESSION['streetnumber'] = $street_no;             // store data in SESSION
     }
 
     if (empty($_POST["city"])) {
         $cityErr = "City is required";
     } else {
         $city = test_input($_POST["city"]);
+        $_SESSION['city'] = $city;
     }
 
     if (empty($_POST["zipcode"])) {
         $zipcodeErr = "Zipcode is required";
     } else {
         $zipcode = test_input($_POST["zipcode"]);
+        $_SESSION['zipcode'] = $zipcode;
     }
 }
 
@@ -87,18 +91,18 @@ function test_input($data) {
     return $data;
 }
 
-if (!empty($_SESSION['street'])){
+/*if (!empty($_SESSION['street'])){
     $street = $_SESSION['street'];              //prefill in address fields
 }
 if (!empty($_SESSION['streetnumber'])){
     $street_no = $_SESSION['streetnumber'];
 }
 if (!empty($_SESSION['city'])){
-    $city = $_SESSION['city'];
+    $_SESSION['city'] = $city;
 }
 if (!empty($_SESSION['zipcode'])){
     $zipcode = $_SESSION['zipcode'];
-}
+}*/
 
 $email_valid ="";
 $street_no_numeric = "";
@@ -124,6 +128,8 @@ if (isset ($_POST["submit"])) {             //boolean met geen errors = true of 
         $validationMessage = "Your order has been sent";
     }
 }
+
+
 
 
 
