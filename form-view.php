@@ -28,7 +28,7 @@
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
                 <input type="text" id="email" name="email" class="form-control" value = "<?php if(isset($_POST["email"])) echo $_POST["email"];?>"/>
-                <span class="error">* <?php echo $emailErr echo $email_valid; ?></span>
+                <span class="error">* <?php echo $emailErr; echo $email_valid; ?></span>
             </div>
             <div></div>
         </div>
@@ -68,6 +68,7 @@
                     <input type="checkbox" value="1" name="products[<?php echo $i ?>]"/> <?php echo $product['name'] ?> -
                     &euro; <?php echo number_format($product['price'], 2) ?></label><br />
             <?php endforeach; ?>
+
         </fieldset>
         
         <label>

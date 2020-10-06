@@ -19,10 +19,10 @@ function whatIsHappening() {
     echo '<h2>$_SESSION</h2>';
     var_dump($_SESSION);
 }
-whatIsHappening();
+//whatIsHappening();
 
 //your products with their price.
-$products = [
+$foods = [
     ['name' => 'Club Ham', 'price' => 3.20],
     ['name' => 'Club Cheese', 'price' => 3],
     ['name' => 'Club Cheese & Ham', 'price' => 4],
@@ -30,7 +30,7 @@ $products = [
     ['name' => 'Club Salmon', 'price' => 5]
 ];
 
-$products = [
+$drinks = [
     ['name' => 'Cola', 'price' => 2],
     ['name' => 'Fanta', 'price' => 2],
     ['name' => 'Sprite', 'price' => 2],
@@ -38,6 +38,24 @@ $products = [
 ];
 
 $totalValue = 0;
+
+// switch between drinks and food
+
+if (!isset($_SESSION['products'])){     // if there's no session, food is default
+    $products = $foods;
+} else {
+    $products = $_SESSION['products'];
+}
+
+if (isset($_GET['food'])){
+    if ($_GET['food'] == "1"){
+        $products = $foods;
+        $_SESSION['products'] = $foods;
+    } else {
+        $products = $drinks;
+        $_SESSION['products'] = $drinks;
+    }
+}
 
 
 $email = $street = $street_no = $city = $zipcode = "";
@@ -90,19 +108,6 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
-
-/*if (!empty($_SESSION['street'])){
-    $street = $_SESSION['street'];              //prefill in address fields
-}
-if (!empty($_SESSION['streetnumber'])){
-    $street_no = $_SESSION['streetnumber'];
-}
-if (!empty($_SESSION['city'])){
-    $_SESSION['city'] = $city;
-}
-if (!empty($_SESSION['zipcode'])){
-    $zipcode = $_SESSION['zipcode'];
-}*/
 
 $email_valid ="";
 $street_no_numeric = "";
