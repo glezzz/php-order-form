@@ -47,6 +47,20 @@ if (!isset($_SESSION['products'])){     // if there's no session, food is defaul
     $products = $_SESSION['products'];
 }
 
+// delivery time
+$delivery = "";
+
+if (isset($_POST['express_delivery'])){
+    $delivery = "Delivered in 45 minutes";
+
+} else{
+    $delivery = "Delivered within 2 hours";
+}
+
+
+
+
+
 if (isset($_GET['food'])){
     if ($_GET['food'] == "1"){
         $products = $foods;
