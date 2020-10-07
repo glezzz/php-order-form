@@ -12,7 +12,7 @@
 <body>
 <div class="container">
     <h1>Order food in restaurant "the Personal Ham Processors"</h1>
-    <span class="error"><?php echo $delivery;?></span>
+    <span class="error"><?php echo $success_msg; ?></span>
     <nav>
         <ul class="nav">
             <li class="nav-item">
@@ -27,8 +27,8 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
-                <input type="text" id="email" name="email" class="form-control" value = "<?php if(isset($_POST["email"])) echo $_POST["email"];?>"/>
-                <span class="error">* <?php echo $emailErr; echo $email_valid; ?></span>
+                <input type="text" id="email" name="email" class="form-control" value = "<?php echo $email;?>"/>
+                <span class="error">* <?php echo $emailErr ?></span>
             </div>
             <div></div>
         </div>
@@ -38,25 +38,25 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
-                    <input type="text" name="street" id="street" class="form-control" value = "<?php if(isset($_POST["street"])) echo $_POST["street"];?>">
+                    <input type="text" name="street" id="street" class="form-control" value = "<?php echo $street;?>">
                     <span class="error">* <?php echo $streetErr;?></span>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
-                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value = "<?php if(isset($_POST["streetnumber"])) echo $_POST["streetnumber"];?>">
-                    <span class="error">* <?php echo $street_nrErr; echo $street_nr_numeric;?></span>
+                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value = "<?php echo $street_nr;?>">
+                    <span class="error">* <?php echo $street_nrErr;?></span>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
-                    <input type="text" id="city" name="city" class="form-control" value = "<?php if(isset($_POST["city"])) echo $_POST["city"];?>">
+                    <input type="text" id="city" name="city" class="form-control" value = "<?php echo $city;?>">
                     <span class="error">* <?php echo $cityErr;?></span>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode" class="form-control" value = "<?php if(isset($_POST["zipcode"])) echo $_POST["zipcode"];?>">
-                    <span class="error">* <?php echo $zipcodeErr; echo $zipcode_numeric;?></span>
+                    <input type="text" id="zipcode" name="zipcode" class="form-control" value = "<?php echo $zipcode;?>">
+                    <span class="error">* <?php echo $zipcodeErr;?></span>
                 </div>
             </div>
         </fieldset>
