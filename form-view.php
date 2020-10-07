@@ -12,7 +12,7 @@
 <body>
 <div class="container">
     <h1>Order food in restaurant "the Personal Ham Processors"</h1>
-    <span class="error"><?php echo $success_msg; ?></span>
+    <?php echo $success_msg; ?>
     <nav>
         <ul class="nav">
             <li class="nav-item">

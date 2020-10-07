@@ -19,6 +19,7 @@ $emailErr = $streetErr = $street_nrErr = $cityErr = $zipcodeErr = "";     //vars
 
 $success_msg = "";
 $totalValue = 0;
+setcookie("totalValue", strval($totalValue), time() + (86400 * 30), "/");
 $delivery = "";
 
 
@@ -207,9 +208,13 @@ function calcDelivery(){
     }
 }
 
+$delivery_msg = '<div class="alert alert-success" role="alert">
+                        Order registered! . ' . $delivery .
+                '</div>';
+
 function sendEmail(){
 
-    global $email, $street, $street_nr, $city, $zipcode,$success_msg;
+    global /*$email, */$street, $street_nr, $city, $zipcode,$success_msg;
     $address = $street . ' ' . $street_nr . ', ' . $zipcode . ' ' . $city;
     //global $ordered_product;
 
@@ -225,7 +230,7 @@ $has_errors = validateFields();     //return gets stored here
 if (!$has_errors) {
     calcRevenue();
     calcDelivery();
-    $success_msg = $delivery;
+    $success_msg = $delivery_msg;
     sendEmail();
 
 }
