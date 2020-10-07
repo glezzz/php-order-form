@@ -57,7 +57,7 @@ function validateFields(){
     global $emailErr, $streetErr, $street_nrErr, $cityErr, $zipcodeErr;
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = $_POST['email'];       //save the value even when invalid
+        $email = $_POST['email'];       // save the value even when invalid
         if (empty($email)) {
             $emailErr = "Email is required";
             $has_errors = true;
@@ -68,7 +68,7 @@ function validateFields(){
             }
         }
 
-        $street = $_POST["street"];
+        $street = $_POST["street"];   // save the value even when invalid
         if (empty($street)) {
             $streetErr = "Street is required";
             $has_errors = true;
@@ -125,8 +125,8 @@ function test_input($data){
 }
 
 
-function whatIsHappening()
-{
+function whatIsHappening(){
+
     echo '<h2>$_GET</h2>';
     var_dump($_GET);
     echo '<h2>$_POST</h2>';
@@ -136,8 +136,6 @@ function whatIsHappening()
     echo '<h2>$_SESSION</h2>';
     var_dump($_SESSION);
 }
-
-
 
 //your products with their price.
 $foods = [
@@ -173,28 +171,30 @@ if (isset($_GET['food'])) {
     }
 }
 
-function calcRevenue()
-{
+function calcRevenue(){
 
     global $totalValue, $products;
+
 
     if (isset($_POST['products'])) {
         $post_products = $_POST['products'];
         for ($i = 0; $i < count($products); $i++) {      // loop through prices
             if(isset($post_products[$i])){
                 $totalValue += $products[$i]['price'];      //$i because it has the current index in product array
-
+                //$ordered_product = $products[$i]['name'];
+                //return $ordered_product;
             }
-        }
 
+        }
     }
 
 }
 
+//$ordered_product = calcRevenue();
+
 
 // delivery time
-function calcDelivery()
-{
+function calcDelivery(){
 
     global $delivery, $totalValue;
 
@@ -207,6 +207,18 @@ function calcDelivery()
     }
 }
 
+function sendEmail(){
+
+    global $email, $street, $street_nr, $city, $zipcode,$success_msg;
+    $address = $street . ' ' . $street_nr . ', ' . $zipcode . ' ' . $city;
+    //global $ordered_product;
+
+    mail('alexglezk@gmail.com', 'Order Summary', $success_msg . 'to ' . $address);         //. You ordered ' . $ordered_product);
+
+    //echo $address;
+    //return $address;
+}
+
 
 
 $has_errors = validateFields();     //return gets stored here
@@ -214,9 +226,10 @@ if (!$has_errors) {
     calcRevenue();
     calcDelivery();
     $success_msg = $delivery;
+    sendEmail();
 
 }
-
+        // call it after above to store data in SESSION
 saveDataInSession();
 
 whatIsHappening();
