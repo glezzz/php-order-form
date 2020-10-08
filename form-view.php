@@ -12,7 +12,7 @@
 <body>
 <div class="container">
     <h1>Order food in restaurant "the Personal Ham Processors"</h1>
-    <?php echo $success_msg; ?>
+
     <nav>
         <ul class="nav">
             <li class="nav-item">
@@ -23,6 +23,9 @@
             </li>
         </ul>
     </nav>
+    <?php
+    echo $success_msg;
+    ?>
     <form method="post">
         <div class="form-row">
             <div class="form-group col-md-6">

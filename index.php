@@ -30,8 +30,6 @@ if (isset($_COOKIE['totalValue'])){
     $totalValue = 0;
 }
 
-
-
 /*
 Step 2: Make sure the address is saved
 Save all the address information as long as the user doesn't close the browser. When he closes the browser it is oké to lose his information.
@@ -61,7 +59,7 @@ If the form is valid (for now) just show the user a message above the form that 
 
 function validateFields(){
 
-    $has_errors = false;
+    $has_errors = false;    // we'll call this later to validate. If no errors -> validate form
     global $email, $street, $street_nr, $city, $zipcode;
     global $emailErr, $streetErr, $street_nrErr, $cityErr, $zipcodeErr;
     global $email_style, $street_style, $street_nr_style, $city_style, $zipcode_style, $error_style;
@@ -193,7 +191,6 @@ function calcRevenue(){
 
     global $totalValue, $products;
 
-
     if (isset($_POST['products'])) {
         $post_products = $_POST['products'];
         for ($i = 0; $i < count($products); $i++) {      // loop through prices
@@ -228,11 +225,10 @@ function calcDelivery(){
     }
 }
 
-/*$delivery_msg = echo '<div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Order registered!</h4>
-                    <hr>
-                   <p class="mb-0">{$delivery}</p>
-                </div>';*/
+$delivery_msg = '<div class="alert alert-success" role="alert">
+                        Order sent. ' . $delivery .
+                '</div>';
+
 
 function sendEmail(){
 
@@ -247,10 +243,9 @@ function sendEmail(){
 }
 
 
-
 $has_errors = validateFields();     //return gets stored here
 if (!$has_errors) {
-    calcRevenue();
+    calcRevenue();      // all functions are called from here if there are no errors
     calcDelivery();
     $success_msg = $delivery_msg;
     sendEmail();
