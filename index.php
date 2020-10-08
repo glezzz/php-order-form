@@ -19,8 +19,14 @@ $emailErr = $streetErr = $street_nrErr = $cityErr = $zipcodeErr = "";     //vars
 
 $success_msg = "";
 $totalValue = 0;
-setcookie("totalValue", strval($totalValue), time() + (86400 * 30), "/");
 $delivery = "";
+
+// set total value cookie
+if (isset($_COOKIE['totalValue'])){
+    $totalValue = $_COOKIE['totalValue'];
+} else {
+    $totalValue = 0;
+}
 
 
 
@@ -184,12 +190,15 @@ function calcRevenue(){
                 $totalValue += $products[$i]['price'];      //$i because it has the current index in product array
                 //$ordered_product = $products[$i]['name'];
                 //return $ordered_product;
+                setcookie("totalValue", strval($totalValue), time() + (86400 * 30), "/");
+
             }
 
         }
     }
 
 }
+
 
 //$ordered_product = calcRevenue();
 
@@ -209,7 +218,7 @@ function calcDelivery(){
 }
 
 $delivery_msg = '<div class="alert alert-success" role="alert">
-                        Order registered! . ' . $delivery .
+                    Order send. ' . $delivery .
                 '</div>';
 
 function sendEmail(){
