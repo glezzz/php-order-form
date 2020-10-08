@@ -27,8 +27,8 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
-                <input type="text" id="email" name="email" class="form-control" value = "<?php echo $email;?>"/>
-                <span class="error"><?php echo $emailErr ?></span>
+                <input type="text" id="email" name="email" class="form-control" value = "<?php echo $email;?>" <?php echo $email_style ?>/>
+                <span class="text-danger"><?php echo $emailErr ?></span>
             </div>
             <div></div>
         </div>
@@ -38,25 +38,25 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
-                    <input type="text" name="street" id="street" class="form-control" value = "<?php echo $street;?>">
-                    <span class="error"><?php echo $streetErr;?></span>
+                    <input type="text" name="street" id="street" class="form-control" value = "<?php echo $street;?>" <?php echo $street_style ?>>
+                    <span class="text-danger"><?php echo $streetErr;?></span>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
-                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value = "<?php echo $street_nr;?>">
-                    <span class="error"><?php echo $street_nrErr;?></span>
+                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value = "<?php echo $street_nr;?>" <?php echo $street_nr_style ?>>
+                    <span class="text-danger"><?php echo $street_nrErr;?></span>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
-                    <input type="text" id="city" name="city" class="form-control" value = "<?php echo $city;?>">
-                    <span class="error"><?php echo $cityErr;?></span>
+                    <input type="text" id="city" name="city" class="form-control" value = "<?php echo $city;?>" <?php echo $city_style ?>>
+                    <span class="text-danger"><?php echo $cityErr;?></span>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode" class="form-control" value = "<?php echo $zipcode;?>">
-                    <span class="error"><?php echo $zipcodeErr;?></span>
+                    <input type="text" id="zipcode" name="zipcode" class="form-control" value = "<?php echo $zipcode;?>"<?php echo $zipcode_style ?>>
+                    <span class="text-danger"><?php echo $zipcodeErr;?></span>
                 </div>
             </div>
         </fieldset>

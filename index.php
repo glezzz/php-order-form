@@ -16,6 +16,8 @@ $city = $_SESSION['city'];
 $zipcode = $_SESSION['zipcode'];
 
 $emailErr = $streetErr = $street_nrErr = $cityErr = $zipcodeErr = "";     //vars for error messages
+$email_style = $street_style = $street_nr_style = $city_style = $zipcode_style = "";
+$error_style = 'style="border-color: red"'; // error style
 
 $success_msg = "";
 $totalValue = 0;
@@ -62,22 +64,26 @@ function validateFields(){
     $has_errors = false;
     global $email, $street, $street_nr, $city, $zipcode;
     global $emailErr, $streetErr, $street_nrErr, $cityErr, $zipcodeErr;
+    global $email_style, $street_style, $street_nr_style, $city_style, $zipcode_style, $error_style;
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email'];       // save the value even when invalid
         if (empty($email)) {
-            $emailErr = "Email is required";
+            $email_style = $error_style;
+            $emailErr = " * Email is required";
             $has_errors = true;
         } else {
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $emailErr = "Not a valid email address";
+                $email_style = $error_style;
+                $emailErr = " * Not a valid email address";
                 $has_errors = true;
             }
         }
 
         $street = $_POST["street"];   // save the value even when invalid
         if (empty($street)) {
-            $streetErr = "Street is required";
+            $street_style = $error_style;
+            $streetErr = "* Street is required";
             $has_errors = true;
         } else {
             $street = test_input($street);     //when field is filled, send input to test_input function
@@ -85,20 +91,23 @@ function validateFields(){
 
         $street_nr = $_POST["streetnumber"];
         if (empty($street_nr)) {
-            $street_nrErr = "Street number is required";
+            $street_nr_style = $error_style;
+            $street_nrErr = " * Street number is required";
             $has_errors = true;
         } else {
             $street_nr = test_input($street_nr);
 
             if (!is_numeric($street_nr)) {         //validate street number: if not numeric -> error
-                $street_nrErr = "Street number must be a numeric value";
+                $street_nr_style = $error_style;
+                $street_nrErr = "* Street number must be a numeric value";
                 $has_errors = true;
             }
         }
 
         $city = $_POST["city"];
         if (empty($city)) {
-            $cityErr = "City is required";
+            $city_style = $error_style;
+            $cityErr = "* City is required";
             $has_errors = true;
         } else {
             $city = test_input($city);
@@ -106,13 +115,15 @@ function validateFields(){
 
         $zipcode = $_POST["zipcode"];
         if (empty($zipcode)) {
-            $zipcodeErr = "Zipcode is required";
+            $zipcode_style = $error_style;
+            $zipcodeErr = "* Zipcode is required";
             $has_errors = true;
         } else {
             $zipcode = test_input($zipcode);
 
             if (!is_numeric($zipcode)) {                      //validate zipcode: if not numeric -> error
-                $zipcodeErr = "Zipcode must be a numeric value";
+                $zipcode_style = $error_style;
+                $zipcodeErr = "* Zipcode must be a numeric value";
                 $has_errors = true;
             }
         }
@@ -217,9 +228,11 @@ function calcDelivery(){
     }
 }
 
-$delivery_msg = '<div class="alert alert-success" role="alert">
-                    Order send. ' . $delivery .
-                '</div>';
+/*$delivery_msg = echo '<div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Order registered!</h4>
+                    <hr>
+                   <p class="mb-0">{$delivery}</p>
+                </div>';*/
 
 function sendEmail(){
 
