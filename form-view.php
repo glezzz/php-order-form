@@ -68,7 +68,7 @@
             <legend>Products</legend>
             <?php foreach ($products AS $i => $product): ?>
                 <label>
-                    <input type="checkbox" value="1" name="products[<?php echo $i ?>]"/> <?php echo $product['name'] ?> -
+                    <input type="text" value="" name="products[<?php echo $i ?>]"/> <?php echo $product['name'] ?> -
                     &euro; <?php echo number_format($product['price'], 2) ?></label><br />
             <?php endforeach; ?>
 
@@ -78,7 +78,7 @@
             <input type="checkbox" name="express_delivery" value="5" /> 
             Express delivery (+ 5 EUR) 
         </label>
-            
+
         <button type="submit" name = "submit" class="btn btn-primary">Order!</button>
     </form>
 

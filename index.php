@@ -56,7 +56,6 @@ If the form is invalid make sure all the values the user entered are still displ
 If the form is valid (for now) just show the user a message above the form that his order has been sent
  */
 
-
 function validateFields(){
 
     $has_errors = false;    // we'll call this later to validate. If no errors -> validate form
@@ -131,7 +130,6 @@ function validateFields(){
     return $has_errors;
 }
 
-
 function test_input($data){
 
     $data = trim($data);                //check and remove unnecessary characters
@@ -195,22 +193,40 @@ function calcRevenue(){
 
     if (isset($_POST['products'])) {
         $post_products = $_POST['products'];
-        for ($i = 0; $i < count($products); $i++) {      // loop through prices
-            if(isset($post_products[$i])){
-                $current_total += $products[$i]['price'];
+        for ($i = 0; $i < count($products); $i++) {      // loop through products
+            if(isset($post_products[$i])){               //   &
+                $current_total += $products[$i]['price'];  // get [prices]
                 $totalValue += $products[$i]['price'];      //$i because it has the current index in product array
                 //$ordered_product = $products[$i]['name'];
                 //return $ordered_product;
 
-
             }
-
         }
     }
-
 }
 
 
+
+/*$current_total = 0;
+
+function calcRevenue(){
+
+    global $current_total, $totalValue, $products;
+
+    if (isset($_POST['products'])) {
+        $post_products = $_POST['products'];
+        for ($i = 0; $i < count($products); $i++) {      // loop through products
+            if(isset($post_products[$i])){               //   &
+                $current_total += $products[$i]['price'];  // get [prices]
+                $totalValue += $products[$i]['price'];      //$i because it has the current index in product array
+                //$ordered_product = $products[$i]['name'];
+                //return $ordered_product;
+
+            }
+        }
+    }
+}
+*/
 //$ordered_product = calcRevenue();
 
 // delivery time
@@ -220,11 +236,11 @@ function calcDelivery(){
 
     if (isset($_POST['express_delivery'])) {
         $totalValue += 5;  //when express is checked, total +5 EUR  | get current time & parse delivery time
-        $current_total += 5;
-        $delivery = "Delivered at " . date("H:i", strtotime("+45 minutes")) . " with price $" . $current_total;  // use capital H for 24hr clock
+        $current_total += 5;                                        // use capital H for 24hr clock
+        $delivery = "Your order will be delivered at " . date("H:i", strtotime("+45 minutes")) . ". Total &euro; " . number_format($current_total, 2);
 
     } else {
-        $delivery = "Delivered at " . date("H:i", strtotime("+2 hours")) . " with price $" . $current_total;
+        $delivery = "Your order will be delivered at " . date("H:i", strtotime("+2 hours")) . ". Total &euro; " . number_format($current_total, 2);
     }
 
     setcookie("totalValue", strval($totalValue), time() + (86400 * 30), "/");
@@ -242,13 +258,12 @@ function sendEmail(){
     //return $address;
 }
 
-
 $has_errors = validateFields();     //return gets stored here
 if (!$has_errors) {
     calcRevenue();      // functions are called from here if there are no errors
     calcDelivery();
     $success_msg = '<div class="alert alert-success" role="alert">
-                        <h4 class="alert-heading">Well done!</h4>
+                        <h4 class="alert-heading">Order Registered!</h4>
                            <hr>
                         <p class="mb-0">' . $delivery . '</p>
                     </div>';
