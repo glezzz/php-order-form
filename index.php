@@ -187,18 +187,21 @@ if (isset($_GET['food'])) {
     }
 }
 
+$current_total = 0;
+
 function calcRevenue(){
 
-    global $totalValue, $products;
+    global $current_total, $totalValue, $products;
 
     if (isset($_POST['products'])) {
         $post_products = $_POST['products'];
         for ($i = 0; $i < count($products); $i++) {      // loop through prices
             if(isset($post_products[$i])){
+                $current_total += $products[$i]['price'];
                 $totalValue += $products[$i]['price'];      //$i because it has the current index in product array
                 //$ordered_product = $products[$i]['name'];
                 //return $ordered_product;
-                setcookie("totalValue", strval($totalValue), time() + (86400 * 30), "/");
+
 
             }
 
@@ -210,25 +213,22 @@ function calcRevenue(){
 
 //$ordered_product = calcRevenue();
 
-
 // delivery time
 function calcDelivery(){
 
-    global $delivery, $totalValue;
+    global $delivery, $current_total, $totalValue;
 
     if (isset($_POST['express_delivery'])) {
         $totalValue += 5;  //when express is checked, total +5 EUR  | get current time & parse delivery time
-        $delivery = "Delivered at " . date("H:i", strtotime("+45 minutes")) . " with price $" . $totalValue;  // use capital H for 24hr clock
+        $current_total += 5;
+        $delivery = "Delivered at " . date("H:i", strtotime("+45 minutes")) . " with price $" . $current_total;  // use capital H for 24hr clock
 
     } else {
-        $delivery = "Delivered at " . date("H:i", strtotime("+2 hours")) . " with price $" . $totalValue;
+        $delivery = "Delivered at " . date("H:i", strtotime("+2 hours")) . " with price $" . $current_total;
     }
+
+    setcookie("totalValue", strval($totalValue), time() + (86400 * 30), "/");
 }
-
-$delivery_msg = '<div class="alert alert-success" role="alert">
-                        Order sent. ' . $delivery .
-                '</div>';
-
 
 function sendEmail(){
 
@@ -245,9 +245,13 @@ function sendEmail(){
 
 $has_errors = validateFields();     //return gets stored here
 if (!$has_errors) {
-    calcRevenue();      // all functions are called from here if there are no errors
+    calcRevenue();      // functions are called from here if there are no errors
     calcDelivery();
-    $success_msg = $delivery_msg;
+    $success_msg = '<div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Well done!</h4>
+                           <hr>
+                        <p class="mb-0">' . $delivery . '</p>
+                    </div>';
     sendEmail();
 
 }
